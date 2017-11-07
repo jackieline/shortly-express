@@ -107,7 +107,7 @@ app.post('/login', (req, res) => {
         res.redirect('/login');
       } else if (data.username === req.body.username) {
         if (models.Users.compare(req.body.password, data.password, data.salt)) {
-          console.log(cookieparser);
+          
           res.redirect('/');
         } else { 
           res.redirect('/login');
