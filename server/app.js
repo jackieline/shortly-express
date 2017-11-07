@@ -5,6 +5,7 @@ const partials = require('express-partials');
 const bodyParser = require('body-parser');
 const Auth = require('./middleware/auth');
 const models = require('./models');
+const cookieparser = ('./middleware/cookieparser');
 
 const app = express();
 
@@ -81,7 +82,7 @@ app.get('/signup', (req, res) => {
   res.render('/signup');
 });
 
-app.post('/signup', (req, res, next) => {
+app.post('/signup', (req, res) => {
   //console.log('req.body: ', req.body);
   models.Users.getAll({'username': req.body.username})
     .then((data) => {
@@ -95,6 +96,28 @@ app.post('/signup', (req, res, next) => {
     .catch((error) => console.error(error));
 });
 
+app.get('/login', (req, res) => {
+  res.render('/login');
+});
+
+app.post('/login', (req, res) => {
+  models.Users.get({'username': req.body.username})
+    .then((data) => {
+      if (!data) {
+        res.redirect('/login');
+      } else if (data.username === req.body.username) {
+        if (models.Users.compare(req.body.password, data.password, data.salt)) {
+          console.log(cookieparser);
+          res.redirect('/');
+        } else { 
+          res.redirect('/login');
+        }
+      } else {
+        res.redirect('/login');
+      }
+    })
+    .catch((error) => console.error(error));
+});
 
 /************************************************************/
 // Handle the code parameter route last - if all other routes fail
