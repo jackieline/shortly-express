@@ -9,7 +9,6 @@ const parseCookies = (req, res, next) => {
       var cookiesSplit = cookiesSemi[i].split('=');
       req.cookies[cookiesSplit[0]] = cookiesSplit[1];
     }
-    console.log('OUTSIDE!', req.cookies);
   }
   next();
   
