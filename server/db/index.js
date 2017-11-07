@@ -2,6 +2,8 @@ const mysql = require('mysql');
 const createTables = require('./config');
 const Promise = require('bluebird');
 const database = 'shortly';
+//WHY DO WE NEED TO ALIAS THE SHORTLY VARIABLE?...noticed it is in
+//template strings below.
 
 const connection = mysql.createConnection({
   user: 'student',
